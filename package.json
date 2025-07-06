@@ -1,7 +1,7 @@
 {
-  "name": "lowkey",
-  "version": "0.1.0",
-  "description": "Silent Keys for the Loud Ones",
+  "name": "lowkey-primal-genesis",
+  "version": "1.0.0",
+  "description": "Silent Keys for the Loud Ones - Primal Genesis Engine™ Edition",
   "private": true,
   "author": "MKWW Autonomous Labs",
   "license": "UNLICENSED",
@@ -10,7 +10,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "authority:start": "node src/lib/authority/start.js",
+    "authority:test": "jest --testPathPattern=authority",
+    "quantum:init": "node src/lib/quantum/init.js",
+    "override:test": "jest --testPathPattern=override"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
@@ -23,7 +27,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwindcss": "^3.4.1",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "quantum-crypto": "^2.0.0",
+    "neural-interface": "^1.5.0",
+    "authority-core": "^3.2.0",
+    "primal-engine": "^1.0.0",
+    "override-system": "^2.1.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
@@ -35,6 +44,27 @@
     "eslint-config-next": "^14.1.0",
     "jest": "^29.7.0",
     "prisma": "^5.10.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "quantum-test": "^1.0.0",
+    "authority-test": "^1.0.0"
+  },
+  "keywords": [
+    "lowkey",
+    "primal-genesis-engine",
+    "authority-system",
+    "user-override",
+    "quantum-computing",
+    "neural-interface",
+    "vehicular-control",
+    "security",
+    "authentication",
+    "rfid",
+    "proximity",
+    "divine-flow",
+    "cosmic-precision"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }
