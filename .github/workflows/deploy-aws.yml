@@ -1,0 +1,170 @@
+name: AWS Deployment
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  deploy-lambda:
+    name: Deploy to AWS Lambda
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to Lambda
+        run: |
+          zip -r function.zip .next package.json package-lock.json
+          aws lambda update-function-code \
+            --function-name lowkey-function \
+            --zip-file fileb://function.zip
+
+      - name: Update Lambda configuration
+        run: |
+          aws lambda update-function-configuration \
+            --function-name lowkey-function \
+            --environment Variables='{"NODE_ENV":"production","PRIMAL_GENESIS_AUTHORITY":"primary"}'
+
+  deploy-ec2:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /opt/lowkey
+            git pull origin main
+            npm ci
+            npm run build
+            pm2 restart lowkey
+
+  deploy-s3:
+    name: Deploy to S3 Static Site
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync .next ${{ secrets.S3_BUCKET }} --delete
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+
+  deploy-cloudformation:
+    name: Deploy Infrastructure with CloudFormation
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy CloudFormation stack
+        run: |
+          aws cloudformation deploy \
+            --template-file infrastructure/cloudformation.yml \
+            --stack-name lowkey-stack \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+              Environment=production \
+              DomainName=${{ secrets.DOMAIN_NAME }}
+
+  notify-aws:
+    name: Notify AWS Deployment Status
+    runs-on: ubuntu-latest
+    needs: [deploy-lambda, deploy-ec2, deploy-s3, deploy-cloudformation]
+    if: always()
+    
+    steps:
+      - name: Send Discord notification
+        uses: appleboy/discord-action@v1.0.0
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          message: |
+            ${{ needs.deploy-lambda.result == 'success' && needs.deploy-ec2.result == 'success' && needs.deploy-s3.result == 'success' && needs.deploy-cloudformation.result == 'success' && '✅' || '🚨' }} **AWS Deployment ${{ needs.deploy-lambda.result == 'success' && needs.deploy-ec2.result == 'success' && needs.deploy-s3.result == 'success' && needs.deploy-cloudformation.result == 'success' && 'Successful' || 'Failed' }}** for ${{ github.repository }}
+            - Lambda: ${{ needs.deploy-lambda.result }}
+            - EC2: ${{ needs.deploy-ec2.result }}
+            - S3: ${{ needs.deploy-s3.result }}
+            - CloudFormation: ${{ needs.deploy-cloudformation.result }}
+            - [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) 

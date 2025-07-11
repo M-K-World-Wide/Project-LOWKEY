@@ -1,20 +1,35 @@
 {
   "name": "lowkey-primal-genesis",
   "version": "1.0.0",
-  "description": "Silent Keys for the Loud Ones - Primal Genesis Engine™ Edition",
-  "private": true,
+  "description": "Silent Keys for the Loud Ones - Primal Genesis Engine™ Edition - Next-generation access control system with quantum authority and human override capabilities",
+  "private": false,
   "author": "MKWW Autonomous Labs",
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/M-K-World-Wide/Project-LOWKEY.git"
+  },
+  "homepage": "https://github.com/M-K-World-Wide/Project-LOWKEY#readme",
+  "bugs": {
+    "url": "https://github.com/M-K-World-Wide/Project-LOWKEY/issues"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "authority:start": "node src/lib/authority/start.js",
     "authority:test": "jest --testPathPattern=authority",
     "quantum:init": "node src/lib/quantum/init.js",
-    "override:test": "jest --testPathPattern=override"
+    "quantum:test": "jest --testPathPattern=quantum",
+    "override:test": "jest --testPathPattern=override",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
@@ -46,7 +61,10 @@
     "prisma": "^5.10.0",
     "typescript": "^5.3.3",
     "quantum-test": "^1.0.0",
-    "authority-test": "^1.0.0"
+    "authority-test": "^1.0.0",
+    "prettier": "^3.2.5",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2"
   },
   "keywords": [
     "lowkey",
@@ -61,10 +79,25 @@
     "rfid",
     "proximity",
     "divine-flow",
-    "cosmic-precision"
+    "cosmic-precision",
+    "access-control",
+    "automotive",
+    "can-bus",
+    "ble",
+    "nfc",
+    "signal-processing"
   ],
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }

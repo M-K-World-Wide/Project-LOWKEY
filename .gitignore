@@ -1,14 +1,25 @@
-# Dependencies
+# LowKey™ - Primal Genesis Engine™ Edition
+# Git Ignore Configuration
+
+# =============================================================================
+# DEPENDENCIES
+# =============================================================================
+
+# Node.js dependencies
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# Build outputs
-dist/
-build/
-.next/
-out/
+# Package manager lock files (keep package-lock.json for consistency)
+# package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# =============================================================================
+# ENVIRONMENT FILES
+# =============================================================================
 
 # Environment variables
 .env
@@ -17,38 +28,223 @@ out/
 .env.test.local
 .env.production.local
 
+# Environment examples (keep these)
+# !env.example
+
+# =============================================================================
+# BUILD OUTPUTS
+# =============================================================================
+
+# Next.js build output
+.next/
+out/
+dist/
+build/
+
+# Production builds
+*.tgz
+*.tar.gz
+
+# =============================================================================
+# RUNTIME FILES
+# =============================================================================
+
 # Logs
-logs
+logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
 
 # Runtime data
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
 
-# Coverage directory
+# Coverage directory used by tools like istanbul
 coverage/
 *.lcov
 
-# TypeScript cache
-*.tsbuildinfo
+# nyc test coverage
+.nyc_output/
 
-# Optional npm cache directory
-.npm
+# =============================================================================
+# TESTING
+# =============================================================================
 
-# Optional eslint cache
-.eslintcache
+# Jest
+.jest/
+jest-coverage/
 
-# Temporary folders
-tmp/
-temp/
+# Test databases
+test.db
+test.sqlite
+test.sqlite3
 
-# IDE files
+# =============================================================================
+# DATABASE
+# =============================================================================
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Database migrations (keep these)
+# !prisma/migrations/
+
+# Prisma generated files
+prisma/migrations/
+
+# =============================================================================
+# SECURITY & KEYS
+# =============================================================================
+
+# Private keys and certificates
+*.pem
+*.key
+*.crt
+*.cert
+*.p12
+*.pfx
+
+# Authority credentials
+authority-keys/
+quantum-keys/
+override-keys/
+
+# Vehicle access keys
+vehicle-keys/
+can-bus-keys/
+
+# API keys and secrets
+api-keys/
+secrets/
+credentials/
+
+# =============================================================================
+# VEHICULAR INTEGRATION
+# =============================================================================
+
+# Vehicle configuration files
+vehicle-config/
+can-bus-config/
+vehicle-keys/
+
+# Vehicle logs
+vehicle-logs/
+can-bus-logs/
+
+# Vehicle data
+vehicle-data/
+telemetry-data/
+
+# =============================================================================
+# QUANTUM PROCESSING
+# =============================================================================
+
+# Quantum processing data
+quantum-data/
+entanglement-data/
+superposition-data/
+
+# Quantum keys
+quantum-keys/
+quantum-certificates/
+
+# =============================================================================
+# AUTHORITY SYSTEM
+# =============================================================================
+
+# Authority logs
+authority-logs/
+override-logs/
+handoff-logs/
+
+# Authority data
+authority-data/
+audit-logs/
+
+# Authority keys
+authority-keys/
+override-keys/
+
+# =============================================================================
+# PROXIMITY SUITE
+# =============================================================================
+
+# BLE data
+ble-data/
+ble-logs/
+ble-cache/
+
+# NFC data
+nfc-data/
+nfc-logs/
+nfc-cache/
+
+# Proximity correlation data
+proximity-data/
+correlation-data/
+
+# =============================================================================
+# PHANTOM TOUCH
+# =============================================================================
+
+# RFID data
+rfid-data/
+rfid-logs/
+rfid-cache/
+
+# Signal processing data
+signal-data/
+protocol-data/
+
+# =============================================================================
+# GHOSTSKIN
+# =============================================================================
+
+# Signal scrambling data
+scrambling-data/
+stealth-data/
+
+# =============================================================================
+# WHISPERGATE
+# =============================================================================
+
+# AI authentication data
+ai-auth-data/
+voice-data/
+facial-data/
+
+# AthenaMist data
+athenamist-data/
+athenamist-logs/
+
+# =============================================================================
+# DIVINE REACH
+# =============================================================================
+
+# Device sync data
+sync-data/
+device-registry/
+
+# Cross-device data
+cross-device-data/
+
+# =============================================================================
+# DEVELOPMENT TOOLS
+# =============================================================================
+
+# IDE and editor files
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS generated files
 .DS_Store
@@ -58,3 +254,147 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# =============================================================================
+# DEPLOYMENT
+# =============================================================================
+
+# Deployment files
+.deploy/
+deploy-config/
+deployment-keys/
+
+# Docker
+Dockerfile.local
+docker-compose.override.yml
+
+# =============================================================================
+# MONITORING & ANALYTICS
+# =============================================================================
+
+# Monitoring data
+monitoring-data/
+metrics-data/
+alerting-data/
+
+# Analytics
+analytics-data/
+telemetry-data/
+
+# =============================================================================
+# BACKUP & RECOVERY
+# =============================================================================
+
+# Backup files
+backups/
+*.backup
+*.bak
+
+# Recovery files
+recovery-data/
+restore-points/
+
+# =============================================================================
+# CACHE & TEMPORARY FILES
+# =============================================================================
+
+# Cache directories
+.cache/
+cache/
+.temp/
+temp/
+
+# Browser cache
+.browserslistrc
+
+# =============================================================================
+# DOCUMENTATION BUILD
+# =============================================================================
+
+# Documentation build output
+docs/build/
+docs/_build/
+docs/.doctrees/
+
+# =============================================================================
+# MISCELLANEOUS
+# =============================================================================
+
+# Local configuration overrides
+local.config.js
+local.config.json
+
+# User-specific files
+.user-config/
+.user-data/
+
+# =============================================================================
+# KEEP THESE FILES
+# =============================================================================
+
+# Keep important configuration files
+!package.json
+!package-lock.json
+!tsconfig.json
+!next.config.js
+!tailwind.config.js
+!postcss.config.js
+!eslint.config.js
+!.eslintrc.js
+!.prettierrc
+!.prettierrc.js
+!jest.config.js
+!jest.setup.js
+
+# Keep documentation
+!README.md
+!CONTRIBUTING.md
+!CODE_OF_CONDUCT.md
+!LICENSE
+!CHANGELOG.md
+
+# Keep environment example
+!env.example
+
+# Keep GitHub templates
+!.github/
+!.github/ISSUE_TEMPLATE/
+!.github/PULL_REQUEST_TEMPLATE.md
+
+# Keep source code
+!src/
+!public/
+
+# Keep configuration files
+!*.config.js
+!*.config.json
+!*.config.ts
+
+# Keep type definitions
+!*.d.ts
+!types/
+
+# Keep test files
+!**/*.test.js
+!**/*.test.ts
+!**/*.test.jsx
+!**/*.test.tsx
+!**/*.spec.js
+!**/*.spec.ts
+!**/*.spec.jsx
+!**/*.spec.tsx
+
+# Keep documentation files
+!**/*.md
+!docs/
+
+# Keep examples
+!examples/
+!**/*.example.js
+!**/*.example.ts
