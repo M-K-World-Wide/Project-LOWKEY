@@ -47,7 +47,13 @@
     "neural-interface": "^1.5.0",
     "authority-core": "^3.2.0",
     "primal-engine": "^1.0.0",
-    "override-system": "^2.1.0"
+    "override-system": "^2.1.0",
+    "express": "^4.18.2",
+    "ws": "^8.13.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
@@ -99,5 +105,17 @@
     "*.{json,md}": [
       "prettier --write"
     ]
+  },
+  "vehicle-override-integration": {
+    "description": "Node.js message broker and cross-language integration for vehicle override modules (RF/Bluetooth, VIN, OBD-II, dashboard, ESP32)",
+    "components": [
+      "broker.js",
+      "RemoteSignalSniffer.js",
+      "VINDecoderDaemon.py",
+      "OBD2LinkBridge.cpp",
+      "ASCIIControlDashboard.jsx",
+      "ESP32StealthModule.ino"
+    ],
+    "documentation": "Quantum-detailed, real-time, cross-referenced. See README.md and @docs/ for details."
   }
 }

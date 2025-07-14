@@ -1,5 +1,11 @@
 # Primal Genesis Engine™ - Lessons Learned
 
+## Initial Integration Notes (2024-06-10)
+- Cross-language integration (JS, Python, C++, JSX, Arduino) requires clear interface contracts (IPC, REST, serial, etc.)
+- Security: All modules must restrict access and sanitize inputs/outputs
+- Performance: Real-time requirements for signal capture, replay, and CAN bus communication
+- Stealth: Trace-clearing and silent operation are critical for all hardware modules
+
 ## 🎓 Development Insights: Primal Genesis Engine Authority Integration
 
 ### 📅 Session: 2024-12-19
