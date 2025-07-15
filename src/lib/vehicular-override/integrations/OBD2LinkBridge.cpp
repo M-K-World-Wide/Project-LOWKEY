@@ -17,11 +17,16 @@
 #include <websocketpp/config/asio_no_tls_client.hpp>
 #include <websocketpp/client.hpp>
 #include <nlohmann/json.hpp>
+#include <cstdlib>
+#include <chrono>
 
 using json = nlohmann::json;
 typedef websocketpp::client<websocketpp::config::asio_client> client;
 
-const std::string BROKER_WS_URL = "ws://localhost:8080";
+const std::string getBrokerWsUrl() {
+    const char* env = std::getenv("BROKER_WS_URL");
+    return env ? std::string(env) : "ws://localhost:8080";
+}
 
 class OBD2LinkBridge {
 public:
@@ -39,10 +44,11 @@ private:
     void broker_loop() {
         client c;
         websocketpp::lib::error_code ec;
-        client::connection_ptr con = c.get_connection(BROKER_WS_URL, ec);
+        std::string ws_url = getBrokerWsUrl();
+        client::connection_ptr con = c.get_connection(ws_url, ec);
         if (ec) return;
         c.connect(con);
-        c.set_message_handler([this](websocketpp::connection_hdl, client::message_ptr msg) {
+        c.set_message_handler([this](websocketpp::connection_hdl hdl, client::message_ptr msg) {
             try {
                 auto data = json::parse(msg->get_payload());
                 if (data["type"] == "command" && data["event"]["target"] == "obd2-bridge") {
@@ -52,6 +58,19 @@ private:
                     }
                 }
             } catch (...) {}
+        });
+        // Heartbeat: send ping every 30s
+        c.set_open_handler([&c, &con](websocketpp::connection_hdl) {
+            std::thread([&c, con]() {
+                while (true) {
+                    std::this_thread::sleep_for(std::chrono::seconds(30));
+                    c.ping(con->get_handle(), "ping");
+                }
+            }).detach();
+        });
+        c.set_pong_handler([](websocketpp::connection_hdl, std::string) {
+            // Optionally update last pong timestamp
+            return true;
         });
         c.run();
     }

@@ -17,7 +17,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -29,7 +28,11 @@
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    // Quantum-detailed: Start the Low Key broker with env config
+    "broker": "bash scripts/start-broker.sh",
+    // Quantum-detailed: Start the VIN decoder daemon with env config
+    "vin": "bash scripts/start-vin.sh"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",

@@ -260,4 +260,4 @@ Authority Integration Layer
 - Consider using a message queue or lightweight broker for cross-language orchestration
 - Define JSON or protobuf schemas for inter-module communication
 - Dashboard (ASCIIControlDashboard.jsx) should poll status from backend and allow manual override triggers
-- ESP32StealthModule.ino: Secure erase after operation, BLE handshake for activation 
+- ESP32StealthModule.ino: Secure erase after operation, BLE handshake for activation

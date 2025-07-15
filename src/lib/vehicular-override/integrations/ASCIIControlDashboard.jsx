@@ -10,8 +10,22 @@
 // 📜 Changelog: [2024-06-10] Initial scaffold.
 
 import React, { useEffect, useState } from 'react';
+import { z } from 'zod';
 
-const BROKER_API_URL = process.env.REACT_APP_BROKER_API_URL || 'http://localhost:8080/api';
+// Quantum-detailed: Zod schema for event/command validation
+const EventSchema = z.object({
+  ts: z.number().optional(),
+  target: z.string().optional(),
+  action: z.string().optional(),
+  status: z.string().optional(),
+  module: z.string().optional()
+});
+
+const EventsArraySchema = z.object({
+  events: z.array(EventSchema)
+});
+
+const BROKER_API_URL = process.env.REACT_APP_BROKER_API_URL;
 
 const ASCIIControlDashboard = () => {
   const [status, setStatus] = useState('INIT');
@@ -22,6 +36,7 @@ const ASCIIControlDashboard = () => {
       try {
         const res = await fetch(`${BROKER_API_URL}/status`);
         const data = await res.json();
+        if (!EventsArraySchema.safeParse(data).success) throw new Error('Invalid event schema');
         setEvents(data.events || []);
         setStatus('ONLINE');
       } catch {
@@ -34,10 +49,12 @@ const ASCIIControlDashboard = () => {
   }, []);
 
   const sendCommand = async (target, action, payload = {}) => {
+    const command = { target, action, payload };
+    if (!EventSchema.safeParse(command).success) return;
     await fetch(`${BROKER_API_URL}/command`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ target, action, payload })
+      body: JSON.stringify(command)
     });
   };
 

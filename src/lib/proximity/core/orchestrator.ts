@@ -7,6 +7,21 @@ import { LilithVehicleManager } from '../integrations/vehicles';
 import { LilithDeviceManager } from '../integrations/devices';
 import { StealthConfig, ProximityEvent, CorrelationResult } from './types';
 
+/**
+ * Quantum-detailed: Authority detection and integration for Proximity Suite™
+ * 📋 Integrates Primal Genesis Engine authority and user override into proximity detection and correlation.
+ * 🧩 Feature Context: Enables authority-controlled proximity events, override, and audit logging.
+ */
+
+detectAuthorityEvent(event: any): void {
+  // TODO: Implement authority detection logic
+  this.emit('authorityEventDetected', { event });
+}
+
+auditProximityAction(action: string, details: any): void {
+  // TODO: Log proximity action to authority audit trail
+}
+
 export class LilithProximityOrchestrator extends EventEmitter {
   private bleSniffer: LilithBLESniffer;
   private nfcScanner: LilithNFCScanner;

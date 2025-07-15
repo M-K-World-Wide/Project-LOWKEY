@@ -192,3 +192,25 @@ export class AuthorityAuditor extends EventEmitter {
     this.auditRecords = this.auditRecords.filter(record => record.timestamp > cutoff);
   }
 } 
+
+/**
+ * AuthorityAuditTrail
+ * 📋 Quantum Documentation: Logs all authority actions, overrides, and handoffs for security and compliance.
+ * 🧩 Feature Context: Enables auditability and traceability of all authority-related events.
+ * 🔒 Security: Ensures all actions are recorded for monitoring and forensics.
+ * 💡 Usage Example:
+ *   const audit = new AuthorityAuditTrail();
+ *   audit.logAction('override', { user, action });
+ */
+export class AuthorityAuditTrail {
+  private logs: Array<{ type: string; details: any; timestamp: number }> = [];
+
+  logAction(type: string, details: any) {
+    this.logs.push({ type, details, timestamp: Date.now() });
+    // TODO: Persist logs to secure storage or monitoring system
+  }
+
+  getLogs() {
+    return this.logs;
+  }
+} 

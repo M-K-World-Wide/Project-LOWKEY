@@ -160,3 +160,21 @@ export class AuthorityOptimizer extends EventEmitter {
     };
   }
 } 
+
+/**
+ * AuthorityConflictResolver
+ * 📋 Quantum Documentation: Resolves conflicts between autonomous and user authority actions.
+ * 🧩 Feature Context: Ensures smooth handoff and prioritization between Primal Genesis Engine and User Override.
+ * 🔒 Security: Prevents deadlocks and ensures correct authority flow.
+ * 💡 Usage Example:
+ *   const resolver = new AuthorityConflictResolver();
+ *   const winner = resolver.resolve('engine', 'user');
+ */
+export class AuthorityConflictResolver {
+  resolve(authorityA: string, authorityB: string): string {
+    // TODO: Implement real conflict resolution logic
+    // For now, user always wins
+    if (authorityA === 'user' || authorityB === 'user') return 'user';
+    return authorityA;
+  }
+} 

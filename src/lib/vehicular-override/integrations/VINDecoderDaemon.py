@@ -20,7 +20,7 @@ import json
 import websocket
 import os
 
-BROKER_WS_URL = os.environ.get('BROKER_WS_URL', 'ws://localhost:8080')
+BROKER_WS_URL = os.environ["BROKER_WS_URL"]
 
 app = Flask(__name__)
 
@@ -51,6 +51,16 @@ def lookup():
     else:
         send_status('profile-not-found', vin)
         return jsonify({'error': 'Profile not found'}), 404
+
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({'status': 'healthy'}), 200
+
+@app.route('/ready', methods=['GET'])
+def ready():
+    # Optionally check broker connection
+    ready = broker_ws and broker_ws.sock and broker_ws.sock.connected
+    return jsonify({'ready': ready}), 200
 
 def broker_thread():
     global broker_ws
