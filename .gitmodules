@@ -1,0 +1,9 @@
+[submodule "EsKaye"]
+	path = EsKaye
+	url = https://github.com/EsKaye/EsKaye
+[submodule "Empath"]
+	path = Empath
+	url = https://github.com/EsKaye/Empath
+[submodule "Purrify"]
+	path = Purrify
+	url = https://github.com/EsKaye/Purrify
