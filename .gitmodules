@@ -7,3 +7,18 @@
 [submodule "Purrify"]
 	path = Purrify
 	url = https://github.com/EsKaye/Purrify
+[submodule "MatrixOS-Layer0"]
+	path = MatrixOS-Layer0
+	url = https://github.com/MKWorldWide/MatrixOS-Layer0
+[submodule "MKronoSphere"]
+	path = MKronoSphere
+	url = https://github.com/MKWorldWide/MKronoSphere
+[submodule "NovaTiny"]
+	path = NovaTiny
+	url = https://github.com/MKWorldWide/NovaTiny
+[submodule "Primal-Genesis-Engine-Sovereign"]
+	path = Primal-Genesis-Engine-Sovereign
+	url = https://github.com/MKWorldWide/Primal-Genesis-Engine-Sovereign
+[submodule "Project-LOWKEY"]
+	path = Project-LOWKEY
+	url = https://github.com/MKWorldWide/Project-LOWKEY
