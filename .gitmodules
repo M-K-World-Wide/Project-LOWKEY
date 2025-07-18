@@ -22,3 +22,18 @@
 [submodule "Project-LOWKEY"]
 	path = Project-LOWKEY
 	url = https://github.com/MKWorldWide/Project-LOWKEY
+[submodule "GameDin"]
+	path = GameDin
+	url = https://github.com/MKWorldWide/GameDin
+[submodule "Lilybear"]
+	path = Lilybear
+	url = https://github.com/MKWorldWide/Lilybear
+[submodule "AthenaMyst_Host"]
+	path = AthenaMyst_Host
+	url = https://github.com/MKWorldWide/AthenaMyst_Host
+[submodule "NovaSanctum"]
+	path = NovaSanctum
+	url = https://github.com/MKWorldWide/NovaSanctum
+[submodule "WhispurrNet"]
+	path = WhispurrNet
+	url = https://github.com/MKWorldWide/WhispurrNet
