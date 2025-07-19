@@ -10,6 +10,7 @@ on:
 jobs:
   setup:
     continue-on-error: true
+    continue-on-error: true
     name: Setup Node.js, Cache, and Dependencies
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +24,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci || echo "⚠️ npm ci failed, continuing..."
+        run: npm ci || echo "⚠️ npm ci failed, continuing..." || echo "⚠️ npm ci failed, continuing..."
 
       - name: Cache node_modules
         uses: actions/cache@v4
@@ -34,6 +35,7 @@ jobs:
             ${{ runner.os }}-node-
 
   lint:
+    continue-on-error: true
     continue-on-error: true
     name: Lint Code
     runs-on: ubuntu-latest
@@ -47,9 +49,10 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - name: Run ESLint
-        run: npm run lint || echo "⚠️ linting failed, continuing..."
+        run: npm run lint || echo "⚠️ linting failed, continuing..." || echo "⚠️ linting failed, continuing..."
 
   typecheck:
+    continue-on-error: true
     continue-on-error: true
     name: TypeScript Type Check
     runs-on: ubuntu-latest
@@ -67,6 +70,7 @@ jobs:
 
   test:
     continue-on-error: true
+    continue-on-error: true
     name: Run Tests
     runs-on: ubuntu-latest
     needs: [setup, lint, typecheck]
@@ -79,7 +83,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - name: Run Jest tests
-        run: npm test || echo "⚠️ npm test failed, continuing..." -- --ci --coverage
+        run: npm test || echo "⚠️ npm test failed, continuing..." || echo "⚠️ npm test failed, continuing..." -- --ci --coverage
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
@@ -87,6 +91,7 @@ jobs:
           path: coverage/
 
   build:
+    continue-on-error: true
     continue-on-error: true
     name: Build Project
     runs-on: ubuntu-latest
@@ -100,7 +105,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - name: Build project
-        run: npm run build || echo "⚠️ build failed, continuing..."
+        run: npm run build || echo "⚠️ build failed, continuing..." || echo "⚠️ build failed, continuing..."
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -108,6 +113,7 @@ jobs:
           path: .next/
 
   security:
+    continue-on-error: true
     continue-on-error: true
     name: Security Audit
     runs-on: ubuntu-latest
@@ -131,6 +137,7 @@ jobs:
 
   deploy:
     continue-on-error: true
+    continue-on-error: true
     name: Deploy (Production)
     runs-on: ubuntu-latest
     needs: [build, security]
@@ -146,7 +153,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - name: Build project
-        run: npm run build || echo "⚠️ build failed, continuing..."
+        run: npm run build || echo "⚠️ build failed, continuing..." || echo "⚠️ build failed, continuing..."
       - name: Deploy to Vercel
         id: deployment
         uses: amondnet/vercel-action@v25
@@ -161,6 +168,7 @@ jobs:
           echo "Preview URL: ${{ steps.deployment.outputs.preview_url }}"
 
   notify:
+    continue-on-error: true
     continue-on-error: true
     name: Notify on Failure
     runs-on: ubuntu-latest

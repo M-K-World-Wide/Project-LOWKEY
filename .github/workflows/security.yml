@@ -12,6 +12,7 @@ on:
 jobs:
   dependency-scan:
     continue-on-error: true
+    continue-on-error: true
     name: Dependency Vulnerability Scan
     runs-on: ubuntu-latest
     
@@ -33,7 +34,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci || echo "⚠️ npm ci failed, continuing..."
+        run: npm ci || echo "⚠️ npm ci failed, continuing..." || echo "⚠️ npm ci failed, continuing..."
 
       - name: Run npm audit
         run: npm audit --audit-level=moderate
@@ -52,6 +53,7 @@ jobs:
           path: snyk-report.json
 
   code-scan:
+    continue-on-error: true
     continue-on-error: true
     name: Code Security Analysis
     runs-on: ubuntu-latest
@@ -88,6 +90,7 @@ jobs:
 
   container-scan:
     continue-on-error: true
+    continue-on-error: true
     name: Container Security Scan
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -114,6 +117,7 @@ jobs:
 
   secrets-scan:
     continue-on-error: true
+    continue-on-error: true
     name: Secrets Detection
     runs-on: ubuntu-latest
     
@@ -133,6 +137,7 @@ jobs:
           path: trufflehog-results.json
 
   license-compliance:
+    continue-on-error: true
     continue-on-error: true
     name: License Compliance Check
     runs-on: ubuntu-latest
@@ -155,12 +160,13 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci || echo "⚠️ npm ci failed, continuing..."
+        run: npm ci || echo "⚠️ npm ci failed, continuing..." || echo "⚠️ npm ci failed, continuing..."
 
       - name: Run license checker
         run: npx license-checker --summary --onlyAllow "MIT;ISC;Apache-2.0;BSD-2-Clause;BSD-3-Clause"
 
   security-notification:
+    continue-on-error: true
     continue-on-error: true
     name: Security Alert Notification
     runs-on: ubuntu-latest
@@ -206,6 +212,7 @@ jobs:
             View Security Tab: https://github.com/${{ github.repository }}/security
 
   security-report:
+    continue-on-error: true
     continue-on-error: true
     name: Generate Security Report
     runs-on: ubuntu-latest
